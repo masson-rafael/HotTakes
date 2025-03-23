@@ -3,62 +3,74 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Sauce;
 
 class SauceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Affiche toutes les sauces
     public function index()
     {
-        //
+        $sauces = Sauce::all();
+        return view('sauces.index', compact('sauces'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Affiche le formulaire de création d'une sauce
     public function create()
     {
-        //
+        return view('sauces.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Stocke une nouvelle sauce en base
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:100',
+            'manufacturer' => 'required|max:100',
+            'description' => 'required',
+            'mainPepper' => 'required|max:50',
+            'imageUrl' => 'required|url',
+            'heat' => 'required|integer|min:1|max:10',
+        ]);
+
+        Sauce::create($request->all());
+
+        return redirect()->route('sauces.index')->with('success', 'Sauce ajoutée !');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Affiche une sauce spécifique
+    public function show(Sauce $sauce)
     {
-        //
+        return view('sauces.show', compact('sauce'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    // Affiche le formulaire d'édition d'une sauce
+    public function edit(Sauce $sauce)
     {
-        //
+        return view('sauces.edit', compact('sauce'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Met à jour une sauce
+    public function update(Request $request, Sauce $sauce)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:100',
+            'manufacturer' => 'required|max:100',
+            'description' => 'required',
+            'mainPepper' => 'required|max:50',
+            'imageUrl' => 'required|url',
+            'heat' => 'required|integer|min:1|max:10',
+        ]);
+
+        $sauce->update($request->all());
+
+        return redirect()->route('sauces.index')->with('success', 'Sauce mise à jour !');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // Supprime une sauce
+    public function destroy(Sauce $sauce)
     {
-        //
+        $sauce->delete();
+
+        return redirect()->route('sauces.index')->with('success', 'Sauce supprimée !');
     }
 }
