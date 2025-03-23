@@ -45,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function Sauce()
+    {
+        return $this->hasMany('App\Models\Sauce');
+    }
 }
