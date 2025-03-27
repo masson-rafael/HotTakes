@@ -1,16 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{ $sauce->name }}</h1>
-    <p>Fabricant : {{ $sauce->manufacturer }}</p>
-    <p>Description : {{ $sauce->description }}</p>
-    <p>Ingrédient principal : {{ $sauce->mainPepper }}</p>
-    <img src="{{ $sauce->imageUrl }}" alt="{{ $sauce->name }}" width="200">
-    <p>Force : {{ $sauce->heat }}/10</p>
-    <p>👍 {{ $sauce->likes }} | 👎 {{ $sauce->dislikes }}</p>
-    <a href="{{ route('sauces.edit', $sauce->id) }}">Modifier</a>
-    <form action="{{ route('sauces.destroy', $sauce->id) }}" method="POST">
-        @csrf @method('DELETE')
-        <button type="submit">Supprimer</button>
-    </form>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Nom:</strong> {{ $sauce->name }}<br>
+            <strong>Manufacturer:</strong> {{ $sauce->manufacturer }}<br>
+            <strong>Description:</strong> {{ $sauce->description }}<br>
+            <strong>Image:</strong> <img src="{{ asset('storage/sauces/' . $sauce->name . '.png') }}" alt="Image de la sauce" style="width: 100px; height: 100px;"><br>
+            <strong>Heat:</strong> {{ $sauce->heat }}<br>
+            <strong>Likes:</strong> {{ $sauce->likes }}<br>
+            <strong>Dislikes:</strong> {{ $sauce->dislikes }}<br>
+            <strong>Users liked:</strong> {{ $sauce->usersLiked }}<br>
+            <strong>Users disliked:</strong> {{ $sauce->usersDisliked }}<br>
+        </div>
+    </div>
+</div>
 @endsection
